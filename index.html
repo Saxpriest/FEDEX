@@ -1,0 +1,204 @@
+<!DOCTYPE html> 
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FedEx Site</title>
+    <link rel="stylesheet" href="styles.css">
+    <link
+      rel="stylesheet"
+      media="all"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+</head>
+<body>
+    <header>
+        <nav class="navbar" >
+            <ul>
+                <li class="nav-item" id="home">
+                    <a href="#home" class="nav-link"><img src="Img/Logo.png" class="Logo" alt="Logo"></a>
+                </li>
+                <li class="nav-item">
+                  <a href="#ship" class="nav-link" id="nav-link">Shipping ∨</a>
+                </li>
+                <li class="nav-item">
+                  <a href="#track" class="nav-link" id="nav-link">Tracking ∨</a>
+                </li>
+                <li class="nav-item">
+                  <a href="#stakeholders" class="nav-link" id="nav-link">Design & Print ∨</a>
+                </li>
+                <li class="nav-item">
+                  <a href="#sub" class="nav-link" id="nav-link">Locations ∨</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#sub" class="nav-link" id="nav-link">Support ∨</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#sub" class="sign-up" id="nav-link">Sign Up or Log In</a>
+                </li> 
+          </ul>
+        </nav>
+    </header>
+    <!--Hero section-->
+    <div class="top" id="ship">
+        <h1>Ship, manage, track, deliver</h1>
+        <br>
+        <section class="boxes">
+        <div class="box-1">
+            <img class="R&T" src="Img/R&S.png" alt="RT-icon">
+            <p class="p1">RATE & SHIP</p>
+        </div>
+        <div class="box-2">
+            <img class="track" src="Img/parcel-tracking.png" alt="track-icon">
+            <p class="p2">TRACK</p>
+        </div>
+        <div class="box-3">
+            <img class="location" src="Img/Location.jpeg" alt="location-icon">
+            <p class="p3">LOCATIONS</p>
+        </div>
+        </section>
+
+        <!-- ✅ Updated Tracking Section -->
+        <div class="tracking">
+            <input id="trackInput" placeholder="TRACKING ID">
+            <button class="btn" onclick="trackShipment()">TRACK</button>
+        </div>
+        <div class="help">
+            <p id="trackResult">MULTIPLE TRACKING NUMBERS | NEED HELP?</p>
+        </div>
+    </div>
+    
+    <!-- keep rest of your content unchanged... -->
+
+    <footer id="sub">
+        <p class="copyright">&copy; FedEx 1995-2023</p>
+        <ul class="foot">
+            <li class="foot-item">
+                <a href="#sub" class="foot-link" id="nav-link">Site Map |</a>
+              </li>
+              <li class="foot-item">
+                  <a href="#sub" class="foot-link" id="nav-link">Terms of Use |</a>
+              </li>
+              <li class="foot-item">
+                  <a href="#sub" class="foot-link" id="nav-link">Privacy & Security</a>
+              </li> 
+        </ul>
+    </footer>
+
+    <!-- ✅ Tracking Script -->
+    <script>
+      function trackShipment() {
+        const id = document.getElementById("trackInput").value.trim();
+        const shipments = JSON.parse(localStorage.getItem("shipments")) || [];
+        const shipment = shipments.find(s => s.trackingNumber === id);
+
+        if (shipment) {
+          document.getElementById("trackResult").innerHTML = `
+            <div class="track-box">
+              <b>Tracking Number:</b> ${shipment.trackingNumber}<br>
+              <b>Origin:</b> ${shipment.origin}<br>
+              <b>Destination:</b> ${shipment.destination}<br>
+              <b>Status:</b> ${shipment.status}<br>
+              <b>Expected Delivery:</b> ${shipment.deliveryDate}
+            </div>
+          `;
+        } else {
+          document.getElementById("trackResult").innerHTML =
+            "<span style='color:red;'>❌ Tracking number not found.</span>";
+        }
+      }
+    </script>
+    <!-- Chat Box -->
+<div class="chat-box" id="chatBox">
+    <div class="chat-header" onclick="toggleChat()">💬 Chat with us</div>
+    <div class="chat-body" id="chatBody">
+      <div class="messages" id="messages"></div>
+      <input type="text" id="chatInput" placeholder="Type a message...">
+      <button onclick="sendMessage()">Send</button>
+    </div>
+  </div>
+  
+  <script>
+    // Load chat history
+    function loadMessages() {
+      const msgs = JSON.parse(localStorage.getItem("chatMessages")) || [];
+      const container = document.getElementById("messages");
+      container.innerHTML = msgs.map(m => `<p><strong>${m.sender}:</strong> ${m.text}</p>`).join("");
+    }
+  
+    // Send user message
+    function sendMessage() {
+      const input = document.getElementById("chatInput");
+      const text = input.value.trim();
+      if (!text) return;
+  
+      const msgs = JSON.parse(localStorage.getItem("chatMessages")) || [];
+      msgs.push({ sender: "User", text });
+      localStorage.setItem("chatMessages", JSON.stringify(msgs));
+  
+      input.value = "";
+      loadMessages();
+    }
+  
+    // Reply (you do this later)
+    function adminReply(msg) {
+      const msgs = JSON.parse(localStorage.getItem("chatMessages")) || [];
+      msgs.push({ sender: "Admin", text: msg });
+      localStorage.setItem("chatMessages", JSON.stringify(msgs));
+      loadMessages();
+    }
+  
+    function toggleChat() {
+      document.getElementById("chatBody").classList.toggle("open");
+    }
+  
+    // Load existing messages on page load
+    loadMessages();
+  </script>
+  <script>
+    // TRACKING FUNCTION
+    function trackShipment() {
+      const trackingNumber = document.getElementById("trackingInput").value.trim();
+      const shipments = JSON.parse(localStorage.getItem("shipments")) || [];
+      const result = shipments.find(s => s.trackingNumber === trackingNumber);
+      const output = document.getElementById("trackingResult");
+
+      if (result) {
+        output.innerHTML = `
+          <p><strong>Tracking Number:</strong> ${result.trackingNumber}</p>
+          <p><strong>Origin:</strong> ${result.origin}</p>
+          <p><strong>Destination:</strong> ${result.destination}</p>
+          <p><strong>Status:</strong> ${result.status}</p>
+          <p><strong>Delivery Date:</strong> ${result.deliveryDate}</p>
+        `;
+      } else {
+        output.innerHTML = "<p>No shipment found for that tracking number.</p>";
+      }
+    }
+
+    // ---------------- CHAT (USER SIDE) ----------------
+    function loadChat() {
+      let messages = JSON.parse(localStorage.getItem("chatMessages")) || [];
+      const box = document.getElementById("chat-box");
+      box.innerHTML = "";
+      messages.forEach(m => {
+        box.innerHTML += `<p><span class="${m.sender}">${m.sender}:</span> ${m.message}</p>`;
+      });
+    }
+
+    function sendMessage() {
+      const msg = document.getElementById("userMessage").value.trim();
+      if (!msg) return;
+      let messages = JSON.parse(localStorage.getItem("chatMessages")) || [];
+      messages.push({ sender: "user", message: msg });
+      localStorage.setItem("chatMessages", JSON.stringify(messages));
+      document.getElementById("userMessage").value = "";
+      loadChat();
+    }
+
+    window.onload = loadChat;
+  </script>
+  
+</body>
+</html>

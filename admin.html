@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FedEx Admin Dashboard</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    body { font-family: Verdana; margin: 20px; }
+    h1 { color: purple; }
+    form { display: flex; flex-direction: column; width: 300px; }
+    input, select, button { margin: 8px 0; padding: 8px; }
+    button { background: #4f0a91; color: white; border: none; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <h1>Admin Dashboard</h1>
+  <form id="shipmentForm">
+    <input type="text" id="trackingNumber" placeholder="Tracking Number" readonly>
+    <input type="text" id="origin" placeholder="Origin" required>
+    <input type="text" id="destination" placeholder="Destination" required>
+    <input type="text" id="status" placeholder="Status (e.g. In Transit)" required>
+    <input type="date" id="deliveryDate" required>
+    <button type="submit">Save Shipment</button>
+  </form>
+
+  <script>
+    // Generate random tracking number
+    document.getElementById("trackingNumber").value =
+      "FDX" + Math.floor(Math.random() * 1000000000);
+
+    // Handle form submission
+    document.getElementById("shipmentForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+
+      const shipment = {
+        trackingNumber: document.getElementById("trackingNumber").value,
+        origin: document.getElementById("origin").value,
+        destination: document.getElementById("destination").value,
+        status: document.getElementById("status").value,
+        deliveryDate: document.getElementById("deliveryDate").value
+      };
+
+      // Save to localStorage
+      let shipments = JSON.parse(localStorage.getItem("shipments")) || [];
+      shipments.push(shipment);
+      localStorage.setItem("shipments", JSON.stringify(shipments));
+
+      alert("Shipment Saved! Tracking Number: " + shipment.trackingNumber);
+      location.reload();
+    });
+  </script>
+</body>
+</html>
