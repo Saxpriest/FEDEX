@@ -50,5 +50,35 @@
       location.reload();
     });
   </script>
+  <script src="supabase.js"></script>
+<script>
+  document.getElementById("trackingNumber").value =
+    "FDX" + Math.floor(Math.random() * 1000000000);
+
+  document.getElementById("shipmentForm").addEventListener("submit", async function(e) {
+    e.preventDefault();
+
+    const shipment = {
+      tracking_number: document.getElementById("trackingNumber").value,
+      origin: document.getElementById("origin").value,
+      destination: document.getElementById("destination").value,
+      status: document.getElementById("status").value,
+      delivery_date: document.getElementById("deliveryDate").value
+    };
+
+    const { error } = await window.supabaseClient
+      .from("shipments")
+      .insert([shipment]);
+
+    if (error) {
+      alert("❌ Error: " + error.message);
+    } else {
+      alert("✅ Shipment Saved! Tracking Number: " + shipment.tracking_number);
+      location.reload();
+    }
+  });
+</script>
+
 </body>
 </html>
+
