@@ -339,6 +339,31 @@
 
     window.onload = loadChat;
   </script>
-  
+  <script src="supabase.js"></script>
+<script>
+  async function trackShipment() {
+    const trackInput = document.getElementById("trackInput").value.trim();
+
+    const { data, error } = await window.supabaseClient
+      .from("shipments")
+      .select("*")
+      .eq("tracking_number", trackInput)
+      .maybeSingle();
+
+    if (error || !data) {
+      alert("Tracking number not found!");
+      document.getElementById("trackingResult").style.display = "none";
+      return;
+    }
+
+    document.getElementById("trackingResult").style.display = "block";
+    document.getElementById("resultNumber").innerText = data.tracking_number;
+    document.getElementById("resultOrigin").innerText = data.origin;
+    document.getElementById("resultDestination").innerText = data.destination;
+    document.getElementById("resultStatus").innerText = data.status;
+    document.getElementById("resultDate").innerText = data.delivery_date;
+  }
+</script>
+
 </body>
 </html>
