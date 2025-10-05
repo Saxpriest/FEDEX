@@ -6,15 +6,17 @@
   <title>FedEx Admin Dashboard</title>
   <link rel="stylesheet" href="styles.css">
   <style>
-    body { font-family: Verdana; margin: 20px; }
+    body { font-family: Verdana; margin: 20px; background: #f9f9f9; }
     h1 { color: purple; }
-    form { display: flex; flex-direction: column; width: 300px; }
-    input, select, button { margin: 8px 0; padding: 8px; }
-    button { background: #4f0a91; color: white; border: none; cursor: pointer; }
+    form { display: flex; flex-direction: column; width: 300px; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 0 10px rgba(0,0,0,0.1); }
+    input, button { margin: 8px 0; padding: 8px; font-size: 14px; }
+    button { background: #4f0a91; color: white; border: none; cursor: pointer; border-radius: 5px; }
+    button:hover { background: #6523b3; }
   </style>
 </head>
 <body>
   <h1>Admin Dashboard</h1>
+
   <form id="shipmentForm">
     <input type="text" id="trackingNumber" placeholder="Tracking Number" readonly>
     <input type="text" id="origin" placeholder="Origin" required>
@@ -24,61 +26,39 @@
     <button type="submit">Save Shipment</button>
   </form>
 
+  <!-- ✅ Supabase Script -->
+  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
   <script>
+    // Initialize Supabase
+    const SUPABASE_URL = "https://ipecphnepjvaogyxxqfh.supabase.co";
+    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlwZWNwaG5lcGp2YW9neXh4cWZoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTk0MzA1MTIsImV4cCI6MjA3NTAwNjUxMn0.D9ySAcvy6V_Mf2HxHjGpLzbyespaPB0ckS2ZgvdwtYc";
+    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
     // Generate random tracking number
     document.getElementById("trackingNumber").value =
       "FDX" + Math.floor(Math.random() * 1000000000);
 
     // Handle form submission
-    document.getElementById("shipmentForm").addEventListener("submit", function(e) {
+    document.getElementById("shipmentForm").addEventListener("submit", async function(e) {
       e.preventDefault();
 
       const shipment = {
-        trackingNumber: document.getElementById("trackingNumber").value,
+        tracking_number: document.getElementById("trackingNumber").value,
         origin: document.getElementById("origin").value,
         destination: document.getElementById("destination").value,
         status: document.getElementById("status").value,
-        deliveryDate: document.getElementById("deliveryDate").value
+        delivery_date: document.getElementById("deliveryDate").value
       };
 
-      // Save to localStorage
-      let shipments = JSON.parse(localStorage.getItem("shipments")) || [];
-      shipments.push(shipment);
-      localStorage.setItem("shipments", JSON.stringify(shipments));
+      const { error } = await supabaseClient.from("shipments").insert([shipment]);
 
-      alert("Shipment Saved! Tracking Number: " + shipment.trackingNumber);
-      location.reload();
+      if (error) {
+        alert("❌ Error: " + error.message);
+      } else {
+        alert("✅ Shipment Saved! Tracking Number: " + shipment.tracking_number);
+        location.reload();
+      }
     });
   </script>
-  <script src="supabase.js"></script>
-<script>
-  document.getElementById("trackingNumber").value =
-    "FDX" + Math.floor(Math.random() * 1000000000);
-
-  document.getElementById("shipmentForm").addEventListener("submit", async function(e) {
-    e.preventDefault();
-
-    const shipment = {
-      tracking_number: document.getElementById("trackingNumber").value,
-      origin: document.getElementById("origin").value,
-      destination: document.getElementById("destination").value,
-      status: document.getElementById("status").value,
-      delivery_date: document.getElementById("deliveryDate").value
-    };
-
-    const { error } = await window.supabaseClient
-      .from("shipments")
-      .insert([shipment]);
-
-    if (error) {
-      alert("❌ Error: " + error.message);
-    } else {
-      alert("✅ Shipment Saved! Tracking Number: " + shipment.tracking_number);
-      location.reload();
-    }
-  });
-</script>
-
 </body>
 </html>
-
