@@ -7,7 +7,6 @@
     <title>FedEx Site</title>
     <link rel="stylesheet" href="styles.css">
     <link rel="stylesheet" href="sstyles.css">
-    <link rel="innerHTML" href="admin.html">
     <link
       rel="stylesheet"
       media="all"
@@ -16,356 +15,212 @@
 </head>
 <body>
     <header>
-        <nav class="navbar" >
+        <nav class="navbar">
             <ul>
                 <li class="nav-item" id="home">
                     <a href="#home" class="nav-link"><img src="Logo.png" class="Logo" alt="Logo"></a>
                 </li>
-                <li class="nav-item">
-                  <a href="#ship" class="nav-link" id="nav-link">Shipping ∨</a>
-                </li>
-                <li class="nav-item">
-                  <a href="#track" class="nav-link" id="nav-link">Tracking ∨</a>
-                </li>
-                <li class="nav-item">
-                  <a href="#stakeholders" class="nav-link" id="nav-link">Design & Print ∨</a>
-                </li>
-                <li class="nav-item">
-                  <a href="#sub" class="nav-link" id="nav-link">Locations ∨</a>
-                </li>
-                <li class="nav-item">
-                    <a href="#sub" class="nav-link" id="nav-link">Support link ∨</a>
-                    <li><a href="admin.html">Home</a></li>
-        <li><a href="#">Admin</a></li>
-                </li>
-                <li class="nav-item">
-                    <a href="#sub" class="sign-up" id="nav-link">Sign Up or Log In</a>
-                </li> 
-          </ul>
+                <li class="nav-item"><a href="#ship" class="nav-link" id="nav-link">Shipping ∨</a></li>
+                <li class="nav-item"><a href="#track" class="nav-link" id="nav-link">Tracking ∨</a></li>
+                <li class="nav-item"><a href="#stakeholders" class="nav-link" id="nav-link">Design & Print ∨</a></li>
+                <li class="nav-item"><a href="#sub" class="nav-link" id="nav-link">Locations ∨</a></li>
+                <li class="nav-item"><a href="#sub" class="nav-link" id="nav-link">Support ∨</a></li>
+                <li class="nav-item"><a href="admin.html" class="nav-link" id="nav-link">Admin</a></li>
+                <li class="nav-item"><a href="#sub" class="sign-up" id="nav-link">Sign Up or Log In</a></li> 
+            </ul>
         </nav>
     </header>
+
     <!--Hero section-->
     <div class="top" id="ship">
         <h1>Ship, manage, track, deliver</h1>
         <br>
         <section class="boxes">
-        <div class="box-1">
-            <img class="R&T" src="R&S.png" alt="RT-icon">
-            <p class="p1">RATE & SHIP</p>
-        </div>
-        <div class="box-2">
-            <img class="track" src="parcel-tracking.png" alt="track-icon">
-            <p class="p2">TRACK</p>
-        </div>
-        <div class="box-3">
-            <img class="location" src="Location.jpeg" alt="location-icon">
-            <p class="p3">LOCATIONS</p>
-        </div>
+            <div class="box-1">
+                <img class="R&T" src="R&S.png" alt="RT-icon">
+                <p class="p1">RATE & SHIP</p>
+            </div>
+            <div class="box-2">
+                <img class="track" src="parcel-tracking.png" alt="track-icon">
+                <p class="p2">TRACK</p>
+            </div>
+            <div class="box-3">
+                <img class="location" src="Location.jpeg" alt="location-icon">
+                <p class="p3">LOCATIONS</p>
+            </div>
         </section>
 
-        <!-- ✅ Updated Tracking Section -->
+        <!-- ✅ Corrected Tracking Section -->
         <div class="tracking">
             <input id="trackInput" placeholder="TRACKING ID">
             <button class="btn" onclick="trackShipment()">TRACK</button>
         </div>
         <div class="help">
-            <p id="trackResult">MULTIPLE TRACKING NUMBERS | NEED HELP?</p>
+            <p>MULTIPLE TRACKING NUMBERS | NEED HELP?</p>
         </div>
-        <div id="trackResult"></div>
 
+        <!-- 🟣 This is where the Supabase results will appear -->
+        <div id="trackResult" style="margin-top:20px; color:#4f0a91; font-family:verdana;"></div>
     </div>
+
     <div class="main-1">
       <h2>Manage your shipments and returns</h2>
       <div class="section-1">
-      
-      <div class="sec-1">
-          <img class="icon1" src="icon_courier_purple.png" alt="courier-icon">
-          <p>
-              DROP OF A PACKAGE
-          </p>
-      </div>
-      <div class="sec-2">
-          <img class="icon2" src="icon_delivery_purple.png" alt="delivery-icon">
-          <p>
-              REDIRECT A PACKAGE
-          </p>
-      </div>
-      <div class="sec-3">
-          <img class="icon3" src="retail-services.svg" alt="retail-icon">
-          <p>
-              STORE HOURS AND SERVICES
-          </p>
-      </div>
-      <div class="sec-4">
-          <img class="icon4" src="icon_alert_purple_lg.png" alt="icon">
-          <p>
-              SERVICE ALERTS
-          </p>
-      </div>
-      <div class="sec-5">
-          <img class="icon5" src="icon_returns_purple.png" alt="icon">
-          <p>
-              RETURN A PACKAGE
-          </p>
-      </div>
+        <div class="sec-1">
+            <img class="icon1" src="icon_courier_purple.png" alt="courier-icon">
+            <p>DROP OF A PACKAGE</p>
+        </div>
+        <div class="sec-2">
+            <img class="icon2" src="icon_delivery_purple.png" alt="delivery-icon">
+            <p>REDIRECT A PACKAGE</p>
+        </div>
+        <div class="sec-3">
+            <img class="icon3" src="retail-services.svg" alt="retail-icon">
+            <p>STORE HOURS AND SERVICES</p>
+        </div>
+        <div class="sec-4">
+            <img class="icon4" src="icon_alert_purple_lg.png" alt="icon">
+            <p>SERVICE ALERTS</p>
+        </div>
+        <div class="sec-5">
+            <img class="icon5" src="icon_returns_purple.png" alt="icon">
+            <p>RETURN A PACKAGE</p>
+        </div>
       </div>
       <div class="section-2">
           <h2>Reliable shipping on your schedule</h2>
-      <section class="scndSection">
-          <div class="sec-2-content1">
-              <p class="schedule">
-                  <img class="img1" src="We pick up.jpeg" alt="icon">
-                  <span class="span-1"><b>We pick up. You save time.</b></span><br>
-                      Let us come to your home or business to pick up
-                      your package. It's easy to schedule a one-time
-                      pickup online. If you have recurring delivery needs,
-                      plan ahead with regular pickups.
-                  <span class="span-2">SCHEDULE A PICKUP</span> 
-              </p>
-          </div>
-          <div class="sec-2-content2">
-              <p class="schedule">
-                  <img class="img2" src="drop off.jpeg" alt="icon">
-                  <span class="span-1"><b>Drop off packages while you shop.</b></span><br>
-                  If you're out and about, combine your shopping
-                  and shipping. Drop off packages at thousands of
-                  locations, including FedEx Office, Dollar General,
-                  Walgreens, and select grocery stores.
-                  <span class="span-2">FIND LOCATIONS</span>
-              </p>
-          </div>
-      </section>
+          <section class="scndSection">
+              <div class="sec-2-content1">
+                  <p class="schedule">
+                      <img class="img1" src="We pick up.jpeg" alt="icon">
+                      <span class="span-1"><b>We pick up. You save time.</b></span><br>
+                      Let us come to your home or business to pick up your package.
+                      <span class="span-2">SCHEDULE A PICKUP</span> 
+                  </p>
+              </div>
+              <div class="sec-2-content2">
+                  <p class="schedule">
+                      <img class="img2" src="drop off.jpeg" alt="icon">
+                      <span class="span-1"><b>Drop off packages while you shop.</b></span><br>
+                      Drop off packages at thousands of locations including FedEx Office, Dollar General, and Walgreens.
+                      <span class="span-2">FIND LOCATIONS</span>
+                  </p>
+              </div>
+          </section>
       </div>
-  </div>
-  <div class="main-2">
+    </div>
+
+    <div class="main-2">
       <h2>We're behind your small business</h2>
-  <section class="thrdSection">
-      <div class="sec-3-content1">
-              <img class="img3" src="Set Up Shop.jpeg" alt="icon">
+      <section class="thrdSection">
+        <div class="sec-3-content1">
+          <img class="img3" src="Set Up Shop.jpeg" alt="icon">
           <div class="schedule2">
               <span class="span-1"><b>Set your small business up for success</b></span><br>
-              Visit the updated Small Business Center for the latest resources from experts and peers. Find shipping tools to improve deliveries for you and your customers.<br>
+              Visit the updated Small Business Center for the latest resources from experts and peers.
               <span class="span-2">FIND TIPS AND TOOLS</span> 
           </div>
-      </div>
-      <div class="sec-3-content2">
+        </div>
+        <div class="sec-3-content2">
           <img class="img4" src="Thousands of Prdcts.jpeg" alt="icon">
           <p class="schedule2">
               <span class="span-1"><b>Thousands of packages at a glance</b></span><br>
-              It’s simple to manage up to 20,000 shipments and run reports in your advanced tracking dashboard. View estimated delivery windows to keep customers informed.<br>
+              Manage up to 20,000 shipments and view estimated delivery windows.
               <span class="span-2">TRACK FOR FREE</span>
           </p>
-      </div>
-  </section>
-  </div>
+        </div>
+      </section>
+    </div>
 
-  <div class="money-back">
-      <p>
-          <span><b>FedEx money-back guarantee</b></span><br>
-          We offer a money-back guarantee for select services. This guarantee may be suspended, modified, or revoked. Please check money-back guarantee for the latest status of our money-back guarantee.
-          <br><span style="font-size: small;">* More than 50% of the U.S. population on Sundays.</span>
-      </p>
-  </div>
+    <div class="money-back">
+        <p>
+            <span><b>FedEx money-back guarantee</b></span><br>
+            We offer a money-back guarantee for select services.
+            <br><span style="font-size: small;">* More than 50% of the U.S. population on Sundays.</span>
+        </p>
+    </div>
 
-  <div class="main-3">
+    <div class="main-3">
       <div class="about" id="about">
           <div class="inAbout">
-          <p class="aboutInfo">
-              <span style="color:blueviolet; font-weight:bold; padding-bottom: 15px;">OUR COMPANY</span>
-              About FedEx<br>
-              Our Portfolio<br>
-              Investor Relations<br>
-              Careers<br>
-              FedEx Blog<br>
-              Corporate Responsibility<br>
-              Newsroom<br>
-              Contact Us<br>
-          </p>
-          <p class="aboutInfo">
-              <span style="color:blueviolet; font-weight:bold; padding-bottom: 15px;">MORE FROM FEDEX</span>
-
-              FedEx Compatible<br>
-              FedEx Developer Portal<br>
-              FedEx Logistics<br>
-              FedEx Cross Border<br>
-              ShopRunner<br>
-          </p>
-          <p class="aboutInfo">
-              <span style="color:blueviolet; font-weight:bold; padding-bottom: 15px;">LANGUAGE</span>
-
-              United States<br>
-              English
-          </p>
+              <p class="aboutInfo">
+                  <span style="color:blueviolet; font-weight:bold; padding-bottom: 15px;">OUR COMPANY</span>
+                  About FedEx<br>Careers<br>Contact Us<br>
+              </p>
+              <p class="aboutInfo">
+                  <span style="color:blueviolet; font-weight:bold; padding-bottom: 15px;">MORE FROM FEDEX</span>
+                  FedEx Developer Portal<br>FedEx Logistics<br>
+              </p>
+              <p class="aboutInfo">
+                  <span style="color:blueviolet; font-weight:bold; padding-bottom: 15px;">LANGUAGE</span>
+                  United States<br>English
+              </p>
           </div>
           <hr style="margin: 40px 0px;">
           <div class="social-links">
               <p style="margin: 15px; color: blueviolet; font-family: monospace; font-size: small; font-weight: bold;">FOLLOW FEDEX</p>
-              <a href="#" class="links1"><i class="fa fa-envelope" id="fa1"></i></a>
-              <a href="#" class="links2"><i class="fa fa-facebook" id="fa2"></i></a>
-              <a href="#" class="links3"><i class="fa fa-twitter" id="fa3"></i></a>
-              <a href="#" class="links4"><i class="fa fa-instagram" id="fa4"></i></a>
-              <a href="#" class="links5"><i class="fa fa-linkedin" id="fa5"></i></a>
-              <a href="#" class="links6"><i class="fa fa-youtube" id="fa6"></i></a>
-              <a href="#" class="links7"><i class="fa fa-pinterest" id="fa7"></i></a>
+              <a href="#"><i class="fa fa-envelope" id="fa1"></i></a>
+              <a href="#"><i class="fa fa-facebook" id="fa2"></i></a>
+              <a href="#"><i class="fa fa-twitter" id="fa3"></i></a>
+              <a href="#"><i class="fa fa-instagram" id="fa4"></i></a>
+              <a href="#"><i class="fa fa-linkedin" id="fa5"></i></a>
+              <a href="#"><i class="fa fa-youtube" id="fa6"></i></a>
+              <a href="#"><i class="fa fa-pinterest" id="fa7"></i></a>
           </div>
       </div>
-  </div>
+    </div>
     
-    <!-- keep rest of your content unchanged... -->
-
     <footer id="sub">
         <p class="copyright">&copy; FedEx 1995-2025</p>
         <ul class="foot">
-            <li class="foot-item">
-                <a href="#sub" class="foot-link" id="nav-link">Site Map |</a>
-              </li>
-              <li class="foot-item">
-                  <a href="#sub" class="foot-link" id="nav-link">Terms of Use |</a>
-              </li>
-              <li class="foot-item">
-                  <a href="#sub" class="foot-link" id="nav-link">Privacy & Security</a>
-              </li> 
+            <li class="foot-item"><a href="#sub" class="foot-link" id="nav-link">Site Map |</a></li>
+            <li class="foot-item"><a href="#sub" class="foot-link" id="nav-link">Terms of Use |</a></li>
+            <li class="foot-item"><a href="#sub" class="foot-link" id="nav-link">Privacy & Security</a></li> 
         </ul>
     </footer>
 
-    <!-- ✅ Tracking Script -->
+    <!-- ✅ Supabase Tracking Script -->
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
     <script>
-      function trackShipment() {
-        const id = document.getElementById("trackInput").value.trim();
-        const shipments = JSON.parse(localStorage.getItem("shipments")) || [];
-        const shipment = shipments.find(s => s.trackingNumber === id);
+      const SUPABASE_URL = "https://ipecphnepjvaogyxxqfh.supabase.co";
+      const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlwZWNwaG5lcGp2YW9neXh4cWZoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTk0MzA1MTIsImV4cCI6MjA3NTAwNjUxMn0.D9ySAcvy6V_Mf2HxHjGpLzbyespaPB0ckS2ZgvdwtYc";
+      const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-        if (shipment) {
-          document.getElementById("trackResult").innerHTML = `
-            <div class="track-box">
-              <b>Tracking Number:</b> ${shipment.trackingNumber}<br>
-              <b>Origin:</b> ${shipment.origin}<br>
-              <b>Destination:</b> ${shipment.destination}<br>
-              <b>Status:</b> ${shipment.status}<br>
-              <b>Expected Delivery:</b> ${shipment.deliveryDate}
-            </div>
-          `;
-        } else {
-          document.getElementById("trackResult").innerHTML =
-            "<span style='color:red;'>❌ Tracking number not found.</span>";
+      async function trackShipment() {
+        const trackingNumber = document.getElementById("trackInput").value.trim();
+        const resultBox = document.getElementById("trackResult");
+
+        if (!trackingNumber) {
+          resultBox.innerHTML = "<p style='color:red;'>Please enter a tracking number.</p>";
+          return;
         }
+
+        const { data, error } = await supabaseClient
+          .from("shipments")
+          .select("*")
+          .eq("tracking_number", trackingNumber);
+
+        if (error) {
+          resultBox.innerHTML = `<p style='color:red;'>Error: ${error.message}</p>`;
+          return;
+        }
+
+        if (!data || data.length === 0) {
+          resultBox.innerHTML = `<p style='color:red;'>❌ No shipment found for ${trackingNumber}.</p>`;
+          return;
+        }
+
+        const shipment = data[0];
+        resultBox.innerHTML = `
+          <div class="track-box" style="border:1px solid #ddd; padding:10px; border-radius:10px; background:#fafafa;">
+            <p><strong>Tracking Number:</strong> ${shipment.tracking_number}</p>
+            <p><strong>Origin:</strong> ${shipment.origin}</p>
+            <p><strong>Destination:</strong> ${shipment.destination}</p>
+            <p><strong>Status:</strong> ${shipment.status}</p>
+            <p><strong>Delivery Date:</strong> ${shipment.delivery_date}</p>
+          </div>
+        `;
       }
     </script>
-    <!-- Chat Box -->
-<div class="chat-box" id="chatBox">
-    <div class="chat-header" onclick="toggleChat()">💬 Chat with us</div>
-    <div class="chat-body" id="chatBody">
-      <div class="messages" id="messages"></div>
-      <input type="text" id="chatInput" placeholder="Type a message...">
-      <button onclick="sendMessage()">Send</button>
-    </div>
-  </div>
-  
-  <script>
-    // Load chat history
-    function loadMessages() {
-      const msgs = JSON.parse(localStorage.getItem("chatMessages")) || [];
-      const container = document.getElementById("messages");
-      container.innerHTML = msgs.map(m => `<p><strong>${m.sender}:</strong> ${m.text}</p>`).join("");
-    }
-  
-    // Send user message
-    function sendMessage() {
-      const input = document.getElementById("chatInput");
-      const text = input.value.trim();
-      if (!text) return;
-  
-      const msgs = JSON.parse(localStorage.getItem("chatMessages")) || [];
-      msgs.push({ sender: "User", text });
-      localStorage.setItem("chatMessages", JSON.stringify(msgs));
-  
-      input.value = "";
-      loadMessages();
-    }
-  
-    // Reply (you do this later)
-    function adminReply(msg) {
-      const msgs = JSON.parse(localStorage.getItem("chatMessages")) || [];
-      msgs.push({ sender: "Admin", text: msg });
-      localStorage.setItem("chatMessages", JSON.stringify(msgs));
-      loadMessages();
-    }
-  
-    function toggleChat() {
-      document.getElementById("chatBody").classList.toggle("open");
-    }
-  
-    // Load existing messages on page load
-    loadMessages();
-  </script>
-  <script>
-    // TRACKING FUNCTION
-    function trackShipment() {
-      const trackingNumber = document.getElementById("trackingInput").value.trim();
-      const shipments = JSON.parse(localStorage.getItem("shipments")) || [];
-      const result = shipments.find(s => s.trackingNumber === trackingNumber);
-      const output = document.getElementById("trackingResult");
-
-      if (result) {
-        output.innerHTML = `
-          <p><strong>Tracking Number:</strong> ${result.trackingNumber}</p>
-          <p><strong>Origin:</strong> ${result.origin}</p>
-          <p><strong>Destination:</strong> ${result.destination}</p>
-          <p><strong>Status:</strong> ${result.status}</p>
-          <p><strong>Delivery Date:</strong> ${result.deliveryDate}</p>
-        `;
-      } else {
-        output.innerHTML = "<p>No shipment found for that tracking number.</p>";
-      }
-    }
-
-    // ---------------- CHAT (USER SIDE) ----------------
-    function loadChat() {
-      let messages = JSON.parse(localStorage.getItem("chatMessages")) || [];
-      const box = document.getElementById("chat-box");
-      box.innerHTML = "";
-      messages.forEach(m => {
-        box.innerHTML += `<p><span class="${m.sender}">${m.sender}:</span> ${m.message}</p>`;
-      });
-    }
-
-    function sendMessage() {
-      const msg = document.getElementById("userMessage").value.trim();
-      if (!msg) return;
-      let messages = JSON.parse(localStorage.getItem("chatMessages")) || [];
-      messages.push({ sender: "user", message: msg });
-      localStorage.setItem("chatMessages", JSON.stringify(messages));
-      document.getElementById("userMessage").value = "";
-      loadChat();
-    }
-
-    window.onload = loadChat;
-  </script>
-  <script src="supabase.js"></script>
-<script>
-  async function trackShipment() {
-    const trackInput = document.getElementById("trackInput").value.trim();
-
-    const { data, error } = await window.supabaseClient
-      .from("shipments")
-      .select("*")
-      .eq("tracking_number", trackInput)
-      .maybeSingle();
-
-    if (error || !data) {
-      alert("Tracking number not found!");
-      document.getElementById("trackingResult").style.display = "none";
-      return;
-    }
-
-    document.getElementById("trackingResult").style.display = "block";
-    document.getElementById("resultNumber").innerText = data.tracking_number;
-    document.getElementById("resultOrigin").innerText = data.origin;
-    document.getElementById("resultDestination").innerText = data.destination;
-    document.getElementById("resultStatus").innerText = data.status;
-    document.getElementById("resultDate").innerText = data.delivery_date;
-  }
-</script>
-
 </body>
 </html>
