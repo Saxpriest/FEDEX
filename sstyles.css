@@ -1,6 +1,7 @@
 * { 
     margin: 0;
     padding: 0;
+    color: black;
     /* box-sizing: border-box; */
     font-family: verdana;
 }
@@ -105,7 +106,7 @@ a {
 }
 
 h1 {
-    color: white;
+    color: rgb(47, 9, 111);
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
 }
 
@@ -311,6 +312,7 @@ img {
     display: flex;
     flex-direction: column;
     align-items: center;
+    color: black;
     /* text-align: center; */
     /* padding-right: 2px; */
 }
@@ -320,6 +322,7 @@ img {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    color: black;
     /* align-items: center; */
     /*padding-left: 2px;*/
 }
@@ -352,6 +355,7 @@ img {
 h2 {
     padding: 30px;
     text-align: center;
+    color: #440e8a;
 }
 
 .inAbout {
@@ -480,5 +484,95 @@ footer {
     padding: 8px;
     color: white;
     cursor: pointer;
+  }
+  /* === Tracking Section === */
+.tracking-section {
+    padding: 60px 20px;
+    background: #fafafa;
+    text-align: center;
+    font-family: Verdana;
+  }
+  
+  .tracking-container {
+    max-width: 900px;
+    margin: auto;
+    background: #fff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .tracking-input {
+    padding: 12px;
+    width: 60%;
+    max-width: 400px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+  
+  .track-btn {
+    background: #ff6c00;
+    color: #fff;
+    border: none;
+    padding: 12px 18px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+  
+  .track-btn:hover {
+    background: #6d20c4;
+  }
+  
+  .result-card {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    text-align: left;
+    margin-top: 30px;
+  }
+  
+  .result-left,
+  .result-right {
+    flex: 1 1 45%;
+    margin: 10px;
+  }
+  
+  .progress-icons {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    font-size: 14px;
+  }
+  
+  .progress-container {
+    position: relative;
+    height: 10px;
+    background: #ddd;
+    border-radius: 5px;
+    overflow: hidden;
+    margin-bottom: 10px;
+  }
+  
+  .progress-bar {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #4f0a91, #7b2cbf);
+    transition: width 1s ease;
+  }
+  
+  .truck {
+    position: absolute;
+    top: -22px;
+    left: 0;
+    font-size: 20px;
+    transition: left 1s ease;
+  }
+  
+  .route-status {
+    font-style: italic;
+    margin-top: 8px;
+    color: #4f0a91;
+    font-weight: bold;
   }
   
