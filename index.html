@@ -50,18 +50,55 @@
             </div>
         </section>
 
-        <!-- ✅ Corrected Tracking Section -->
-        <div class="tracking">
-            <input id="trackInput" placeholder="TRACKING ID">
-            <button class="btn" onclick="trackShipment()">TRACK</button>
-        </div>
-        <div class="help">
-            <p>MULTIPLE TRACKING NUMBERS | NEED HELP?</p>
+       <!-- 🟣 Modern Tracking Section (Complete) -->
+<section class="tracking-section" id="track">
+  <div class="tracking-container">
+    <h1>Track Your Shipment</h1>
+    <p class="track-sub">Enter your FedEx tracking number to see delivery progress and live updates.</p>
+
+    <!-- Track Form -->
+    <div class="track-form">
+      <input id="trackInput" class="tracking-input" placeholder="Enter Tracking Number (e.g. FDX123456789)">
+      <button class="track-btn" onclick="trackShipment()">Track</button>
+    </div>
+
+    <div id="trackError" class="error-message"></div>
+
+    <!-- Results -->
+    <div id="trackResult" class="track-result" style="display:none;">
+      <div class="result-card">
+        <!-- Left side: Shipment info -->
+        <div class="result-left">
+          <h3>Shipment Details</h3>
+          <p><strong>Tracking #:</strong> <span id="resultNumber">—</span></p>
+          <p><strong>Origin:</strong> <span id="resultOrigin">—</span></p>
+          <p><strong>Destination:</strong> <span id="resultDestination">—</span></p>
+          <p><strong>Status:</strong> <span id="resultStatus">—</span></p>
+          <p><strong>Delivery Date:</strong> <span id="resultDate">—</span></p>
         </div>
 
-        <!-- 🟣 This is where the Supabase results will appear -->
-        <div id="trackResult" style="margin-top:20px; color:#4f0a91; font-family:verdana;"></div>
+        <!-- Right side: Progress visualization -->
+        <div class="result-right">
+          <h3>Delivery Progress</h3>
+          <div class="progress-icons">
+            <div class="icon-step"><span>📦</span><p>Picked Up</p></div>
+            <div class="icon-step"><span>🚚</span><p>In Transit</p></div>
+            <div class="icon-step"><span>🏠</span><p>Delivered</p></div>
+          </div>
+
+          <!-- Truck Progress Bar -->
+          <div class="progress-container">
+            <div class="progress-bar" id="progressBar"></div>
+            <div class="truck" id="truckIcon">🚚</div>
+          </div>
+
+          <p id="routeStatusText" class="route-status">Awaiting update...</p>
+        </div>
+      </div>
     </div>
+  </div>
+</section>
+
 
     <div class="main-1">
       <h2>Manage your shipments and returns</h2>
@@ -186,103 +223,299 @@
       const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlwZWNwaG5lcGp2YW9neXh4cWZoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTk0MzA1MTIsImV4cCI6MjA3NTAwNjUxMn0.D9ySAcvy6V_Mf2HxHjGpLzbyespaPB0ckS2ZgvdwtYc";
       const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-      async function trackShipment() {
-        const trackingNumber = document.getElementById("trackInput").value.trim();
-        const resultBox = document.getElementById("trackResult");
+      
+async function trackShipment() {
+  const trackingNumber = document.getElementById("trackInput").value.trim();
+  const resultBox = document.getElementById("trackResult");
+  const errorBox = document.getElementById("trackError");
+  const progressBar = document.getElementById("progressBar");
+  const truck = document.getElementById("truckIcon");
+  const routeText = document.getElementById("routeStatusText");
 
-        if (!trackingNumber) {
-          resultBox.innerHTML = "<p style='color:red;'>Please enter a tracking number.</p>";
-          return;
-        }
+  if (!trackingNumber) {
+    errorBox.textContent = "Please enter a tracking number.";
+    return;
+  }
 
-        const { data, error } = await supabaseClient
-          .from("shipments")
-          .select("*")
-          .eq("tracking_number", trackingNumber);
+  const { data, error } = await supabaseClient
+    .from("shipments")
+    .select("*")
+    .eq("tracking_number", trackingNumber);
 
-        if (error) {
-          resultBox.innerHTML = `<p style='color:red;'>Error: ${error.message}</p>`;
-          return;
-        }
+  if (error || !data || data.length === 0) {
+    resultBox.style.display = "none";
+    errorBox.textContent = "❌ No shipment found for " + trackingNumber;
+    return;
+  }
 
-        if (!data || data.length === 0) {
-          resultBox.innerHTML = `<p style='color:red;'>❌ No shipment found for ${trackingNumber}.</p>`;
-          return;
-        }
+  errorBox.textContent = "";
+  const shipment = data[0];
+  resultBox.style.display = "block";
 
-        const shipment = data[0];
-        resultBox.innerHTML = `
-          <div class="track-box" style="border:1px solid #ddd; padding:10px; border-radius:10px; background:#fafafa;">
-            <p><strong>Tracking Number:</strong> ${shipment.tracking_number}</p>
-            <p><strong>Origin:</strong> ${shipment.origin}</p>
-            <p><strong>Destination:</strong> ${shipment.destination}</p>
-            <p><strong>Status:</strong> ${shipment.status}</p>
-            <p><strong>Delivery Date:</strong> ${shipment.delivery_date}</p>
-          </div>
-        `;
-      }
-    </script>
-    <!-- ✅ CHAT BOX SECTION -->
-<div class="chat-box" id="chatBox" style="position: fixed; bottom: 20px; right: 20px; width: 300px; font-family: Verdana;">
-  <div class="chat-header" onclick="toggleChat()" style="background: #4f0a91; color: #fff; padding: 10px; cursor: pointer; border-radius: 10px 10px 0 0;">
-    💬 Chat with us
-  </div>
-  <div class="chat-body" id="chatBody" style="display: none; background: #fff; border: 1px solid #ccc; border-top: none; height: 350px; overflow-y: auto; padding: 10px; border-radius: 0 0 10px 10px;">
-    <div class="messages" id="messages" style="max-height: 260px; overflow-y: auto;"></div>
-    <div style="display: flex; margin-top: 10px;">
-      <input type="text" id="chatInput" placeholder="Type a message..." style="flex: 1; padding: 8px; border: 1px solid #ccc; border-radius: 5px;">
-      <button onclick="sendMessage()" style="background: #4f0a91; color: #fff; border: none; padding: 8px 12px; border-radius: 5px; margin-left: 5px; cursor: pointer;">Send</button>
-    </div>
-  </div>
+  document.getElementById("resultNumber").textContent = shipment.tracking_number;
+  document.getElementById("resultOrigin").textContent = shipment.origin;
+  document.getElementById("resultDestination").textContent = shipment.destination;
+  document.getElementById("resultStatus").textContent = shipment.status;
+  document.getElementById("resultDate").textContent = shipment.delivery_date;
+
+  // Progress level by status
+  let progress = 0;
+  const s = shipment.status.toLowerCase();
+  if (s.includes("picked")) progress = 30;
+  else if (s.includes("transit")) progress = 70;
+  else if (s.includes("delivered")) progress = 100;
+
+  // Animate bar + truck
+  progressBar.style.width = progress + "%";
+  truck.style.left = `calc(${progress}% - 15px)`;
+
+  // Route text feedback
+  if (progress === 100) routeText.textContent = "✅ Package delivered successfully.";
+  else if (progress >= 70) routeText.textContent = "🚚 Package is on its way.";
+  else routeText.textContent = "📦 Preparing shipment...";
+}
+</script>
+
+   <!-- ✅ CHAT BOX SECTION (final: private per-device + file upload inline + scrollable) -->
+<div class="chat-box" id="chatBox" 
+style="position: fixed; bottom: 20px; right: 20px; width: 300px; font-family: Verdana;">
+<div class="chat-header" onclick="toggleChat()" 
+  style="background: #4f0a91; color: #fff; padding: 10px; cursor: pointer; border-radius: 10px 10px 0 0;">
+💬 Chat with us
 </div>
 
+<div class="chat-body" id="chatBody" 
+  style="display: none; background: #fff; border: 1px solid #ccc; border-top: none; height: 420px; border-radius: 0 0 10px 10px; display: flex; flex-direction: column; overflow: hidden;">
+
+<!-- 🟣 Scrollable message area -->
+<div class="messages" id="messages" 
+    style="flex: 1; overflow-y: auto; padding: 10px; background: #f9f9f9; border-bottom: 1px solid #eee;"></div>
+
+<!-- 🟣 Input row: upload + input + send -->
+<div style="display: flex; align-items: center; padding: 8px; gap: 6px; background: #fff; border-top: 1px solid #ddd;">
+ <input type="file" id="chatFile" accept="image/*" onchange="sendFile(event)" style="display:none;">
+ <button onclick="document.getElementById('chatFile').click()" 
+         style="background: #eee; border: none; padding: 7px 10px; border-radius: 6px; cursor: pointer;">📎</button>
+
+ <input type="text" id="chatInput" placeholder="Type a message..." 
+        style="flex: 1; padding: 8px; border: 1px solid #ccc; border-radius: 5px;">
+
+ <button id="chatSendBtn" onclick="sendMessage()" 
+         style="background: #4f0a91; color: #fff; border: none; padding: 8px 12px; border-radius: 5px; cursor: pointer;">
+   <i class="fa fa-paper-plane"></i>
+ </button>
+</div>
+</div>
+</div>
+
+<!-- ✅ CHAT STYLES -->
+<style>
+.chat-message {
+margin: 6px 0;
+max-width: 80%;
+padding: 8px 10px;
+border-radius: 12px;
+line-height: 1.3;
+word-wrap: break-word;
+display: inline-block;
+}
+.user-message {
+background: #4f0a91;
+color: #fff;
+margin-left: auto;
+text-align: right;
+border-bottom-right-radius: 2px;
+}
+.bot-message {
+background: #eee;
+color: #000;
+margin-right: auto;
+border-bottom-left-radius: 2px;
+}
+.chat-message img {
+max-width: 180px;
+border-radius: 8px;
+display: block;
+margin-top: 5px;
+}
+</style>
+
+<!-- ✅ CHAT LOGIC -->
 <script>
-  // ✅ Use your existing Supabase client from the tracking script
-  async function loadMessages() {
-    const { data, error } = await supabaseClient
-      .from("messages")
-      .select("*")
-      .order("created_at", { ascending: true });
+// --- PRIVATE PER-DEVICE USER ID ---
+let userId = localStorage.getItem("fedex_user_id");
+if (!userId) {
+userId = "user_" + Math.random().toString(36).substring(2, 10);
+localStorage.setItem("fedex_user_id", userId);
+}
 
-    if (error) {
-      console.error(error);
-      return;
-    }
+// Escape text to avoid HTML injection
+function escapeHtml(str) {
+return String(str || "")
+ .replace(/&/g, "&amp;")
+ .replace(/</g, "&lt;")
+ .replace(/>/g, "&gt;")
+ .replace(/"/g, "&quot;");
+}
 
-    const box = document.getElementById("messages");
-    box.innerHTML = data
-      .map(m => `<p><strong>${m.sender}:</strong> ${m.text}</p>`)
-      .join("");
-    box.scrollTop = box.scrollHeight;
-  }
+// Load only messages for this user
+async function loadMessages() {
+const { data, error } = await supabaseClient
+ .from("messages")
+ .select("*")
+ .eq("user_id", userId)
+ .order("created_at", { ascending: true });
 
-  async function sendMessage() {
-    const input = document.getElementById("chatInput");
-    const text = input.value.trim();
-    if (!text) return;
+if (error) {
+ console.error("Error loading messages:", error);
+ return;
+}
 
-    const { error } = await supabaseClient
-      .from("messages")
-      .insert([{ sender: "User", text }]);
+const box = document.getElementById("messages");
+box.innerHTML = data.map(m => {
+ const cls = m.sender === "User" ? "user-message" : "bot-message";
+ const content = m.file_url
+   ? `<a href="${m.file_url}" target="_blank"><img src="${m.file_url}" alt="attachment"></a>`
+   : `<div>${escapeHtml(m.text || '')}</div>`;
+ const time = m.created_at ? new Date(m.created_at).toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'}) : "";
+ return `<div class="chat-message ${cls}">${content}<div style="font-size:10px; opacity:0.6; text-align:right; margin-top:4px;">${time}</div></div>`;
+}).join("");
 
-    if (error) {
-      alert("Error sending message: " + error.message);
-      return;
-    }
+box.scrollTo({ top: box.scrollHeight, behavior: 'smooth' });
+}
 
-    input.value = "";
-    loadMessages();
-  }
+// Send text message
+async function sendMessage() {
+const input = document.getElementById("chatInput");
+const text = input.value.trim();
+if (!text) return;
 
-  function toggleChat() {
-    const body = document.getElementById("chatBody");
-    body.style.display = body.style.display === "none" ? "block" : "none";
-  }
+const { error } = await supabaseClient
+ .from("messages")
+ .insert([{ user_id: userId, sender: "User", text }]);
 
-  // Auto refresh chat every 5 seconds
-  loadMessages();
-  setInterval(loadMessages, 5000);
+if (error) {
+ alert("Error sending message: " + error.message);
+ return;
+}
+
+input.value = "";
+loadMessages();
+}
+
+// Upload image file
+async function sendFile(event) {
+const file = event.target.files[0];
+if (!file) return;
+
+const fileName = `${userId}/${Date.now()}_${file.name}`;
+const { data: uploadData, error: uploadError } = await supabaseClient
+ .storage.from("chat_uploads")
+ .upload(fileName, file);
+
+if (uploadError) {
+ alert("Upload failed: " + uploadError.message);
+ return;
+}
+
+const fileUrl = `${SUPABASE_URL}/storage/v1/object/public/chat_uploads/${encodeURIComponent(fileName)}`;
+
+const { error: msgError } = await supabaseClient
+ .from("messages")
+ .insert([{ user_id: userId, sender: "User", file_url: fileUrl }]);
+
+if (msgError) {
+ alert("Error saving file message: " + msgError.message);
+ return;
+}
+
+event.target.value = "";
+loadMessages();
+}
+
+// Toggle open/close chat
+function toggleChat() {
+const body = document.getElementById("chatBody");
+body.style.display = (body.style.display === "none" || body.style.display === "") ? "flex" : "none";
+}
+
+// Load messages and poll every 4s
+loadMessages();
+setInterval(loadMessages, 4000);
 </script>
+
+
+<!--
+IMPORTANT: Run this once in Supabase SQL Editor (copy-paste) and create the storage bucket:
+
+-- create messages table (if not exists) with user_id and file_url
+create table if not exists public.messages (
+  id bigserial primary key,
+  user_id text,
+  sender text,
+  text text,
+  file_url text,
+  created_at timestamp default now()
+);
+
+-- In Supabase Dashboard -> Storage: create a bucket named "chat_uploads" and set it to PUBLIC.
+-->
+<style>
+  /* Messenger-style speech bubbles */
+  .chat-message {
+    display: block;
+    clear: both;
+    margin: 8px 0;
+    padding: 10px 12px;
+    border-radius: 15px;
+    max-width: 80%;
+    line-height: 1.4;
+    word-wrap: break-word;
+    animation: fadeIn 0.3s ease;
+  }
+
+  .user-message {
+    background: #4f0a91;
+    color: #fff;
+    margin-left: auto;
+    border-bottom-right-radius: 2px;
+    text-align: left;
+    display: block;
+    float: right;
+  }
+
+  .bot-message {
+    background: #e4e4e4;
+    color: #000;
+    margin-right: auto;
+    border-bottom-left-radius: 2px;
+    text-align: left;
+    display: block;
+    float: left;
+  }
+
+  .chat-message img {
+    max-width: 200px;
+    border-radius: 8px;
+    display: block;
+    margin-top: 5px;
+  }
+
+  #messages {
+    overflow-y: auto;
+    max-height: 300px;
+    padding: 10px;
+    background: #f9f9f9;
+    display: flex;
+    flex-direction: column;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+</style>
+
 
 </body>
 </html>
