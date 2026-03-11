@@ -33,68 +33,90 @@
     </div>
   </div>
 
-  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
-  <script>
-    const SUPABASE_URL = "https://ipecphnepjvaogyxxqfh.supabase.co";
-    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlwZWNwaG5lcGp2YW9neXh4cWZoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTk0MzA1MTIsImV4cCI6MjA3NTAwNjUxMn0.D9ySAcvy6V_Mf2HxHjGpLzbyespaPB0ckS2ZgvdwtYc";
-    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+ <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+<script>
+  // ✅ Updated Supabase project
+  const SUPABASE_URL = "https://ogzzwegtifhtjygnsuxr.supabase.co";
+  const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9nenp3ZWd0aWZodGp5Z25zdXhyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMxOTEwMzIsImV4cCI6MjA4ODc2NzAzMn0.Hp7F2GDqfBeHxXKek3BkN_P1HAuqhab5jEogbaKygB8";
 
-    let selectedUser = null;
+  const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
-    async function loadUserList() {
-      const { data, error } = await supabaseClient.from("messages").select("user_id").not("user_id", "is", null);
-      if (error) return console.error(error);
-      const uniqueUsers = [...new Set(data.map(u => u.user_id))];
-      const select = document.getElementById("userSelect");
-      select.innerHTML = uniqueUsers.map(u => `<option value="${u}">${u}</option>`).join("");
-      if (!selectedUser && uniqueUsers.length > 0) selectedUser = uniqueUsers[0];
-      loadMessages();
-    }
+  let selectedUser = null;
 
-    async function loadMessages() {
-      selectedUser = document.getElementById("userSelect").value;
-      if (!selectedUser) return;
-      const { data, error } = await supabaseClient
-        .from("messages")
-        .select("*")
-        .eq("user_id", selectedUser)
-        .order("created_at", { ascending: true });
+  async function loadUserList() {
+    const { data, error } = await supabaseClient
+      .from("messages")
+      .select("user_id")
+      .not("user_id", "is", null);
+    if (error) return console.error(error);
 
-      if (error) return console.error(error);
+    const uniqueUsers = [...new Set(data.map(u => u.user_id))];
+    const select = document.getElementById("userSelect");
+    select.innerHTML = uniqueUsers.map(u => `<option value="${u}">${u}</option>`).join("");
+    if (!selectedUser && uniqueUsers.length > 0) selectedUser = uniqueUsers[0];
+    loadMessages();
+  }
 
-      const box = document.getElementById("messages");
-      box.innerHTML = data.map(m => {
-        const cls = m.sender === "Admin" ? "msg admin" : "msg user";
-        const filePart = m.file_url ? `<img src="${m.file_url}" class="chat-image">` : "";
-        return `<div class="${cls}"><strong>${m.sender}:</strong> ${m.text || ""}${filePart}<br><small>${new Date(m.created_at).toLocaleString()}</small></div>`;
-      }).join("");
-      box.scrollTop = box.scrollHeight;
-    }
+  async function loadMessages() {
+    selectedUser = document.getElementById("userSelect").value;
+    if (!selectedUser) return;
 
-    async function sendReply() {
-      const input = document.getElementById("replyInput");
-      const msg = input.value.trim();
-      if (!msg || !selectedUser) return;
-      await supabaseClient.from("messages").insert([{ user_id: selectedUser, sender: "Admin", text: msg }]);
-      input.value = "";
-      loadMessages();
-    }
+    const { data, error } = await supabaseClient
+      .from("messages")
+      .select("*")
+      .eq("user_id", selectedUser)
+      .order("created_at", { ascending: true });
 
-    async function sendFile(event) {
-      const file = event.target.files[0];
-      if (!file || !selectedUser) return;
+    if (error) return console.error(error);
 
-      const filePath = `${selectedUser}/admin_${Date.now()}_${file.name}`;
-      const { error: uploadError } = await supabaseClient.storage.from("chat_uploads").upload(filePath, file);
-      if (uploadError) return alert("Upload failed: " + uploadError.message);
+    const box = document.getElementById("messages");
+    box.innerHTML = data.map(m => {
+      const cls = m.sender === "Admin" ? "msg admin" : "msg user";
+      const filePart = m.file_url ? `<img src="${m.file_url}" class="chat-image">` : "";
+      return `<div class="${cls}"><strong>${m.sender}:</strong> ${m.text || ""}${filePart}<br><small>${new Date(m.created_at).toLocaleString()}</small></div>`;
+    }).join("");
+    box.scrollTop = box.scrollHeight;
+  }
 
-      const { data } = supabaseClient.storage.from("chat_uploads").getPublicUrl(filePath);
-      await supabaseClient.from("messages").insert([{ user_id: selectedUser, sender: "Admin", text: "", file_url: data.publicUrl }]);
-      loadMessages();
-    }
+  async function sendReply() {
+    const input = document.getElementById("replyInput");
+    const msg = input.value.trim();
+    if (!msg || !selectedUser) return;
 
-    loadUserList();
-    setInterval(loadMessages, 4000);
-  </script>
+    await supabaseClient
+      .from("messages")
+      .insert([{ user_id: selectedUser, sender: "Admin", text: msg }]);
+
+    input.value = "";
+    loadMessages();
+  }
+
+  async function sendFile(event) {
+    const file = event.target.files[0];
+    if (!file || !selectedUser) return;
+
+    const filePath = `${selectedUser}/admin_${Date.now()}_${file.name}`;
+    const { error: uploadError } = await supabaseClient
+      .storage
+      .from("chat_uploads")
+      .upload(filePath, file);
+
+    if (uploadError) return alert("Upload failed: " + uploadError.message);
+
+    const { data } = supabaseClient
+      .storage
+      .from("chat_uploads")
+      .getPublicUrl(filePath);
+
+    await supabaseClient
+      .from("messages")
+      .insert([{ user_id: selectedUser, sender: "Admin", text: "", file_url: data.publicUrl }]);
+
+    loadMessages();
+  }
+
+  loadUserList();
+  setInterval(loadMessages, 4000);
+</script>
 </body>
 </html>
