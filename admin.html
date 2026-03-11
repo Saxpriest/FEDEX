@@ -27,38 +27,48 @@
   </form>
 
   <!-- ✅ Supabase Script -->
-  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
-  <script>
-    // Initialize Supabase
-    const SUPABASE_URL = "https://ipecphnepjvaogyxxqfh.supabase.co";
-    const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlwZWNwaG5lcGp2YW9neXh4cWZoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTk0MzA1MTIsImV4cCI6MjA3NTAwNjUxMn0.D9ySAcvy6V_Mf2HxHjGpLzbyespaPB0ckS2ZgvdwtYc";
-    const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+ <!-- Supabase Library -->
+<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
 
-    // Generate random tracking number
-    document.getElementById("trackingNumber").value =
-      "FDX" + Math.floor(Math.random() * 1000000000);
+<script>
+const SUPABASE_URL = "https://ogzzwegtifhtjygnsuxr.supabase.co";
 
-    // Handle form submission
-    document.getElementById("shipmentForm").addEventListener("submit", async function(e) {
-      e.preventDefault();
+const SUPABASE_ANON_KEY =
+"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im9nenp3ZWd0aWZodGp5Z25zdXhyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzMxOTEwMzIsImV4cCI6MjA4ODc2NzAzMn0.Hp7F2GDqfBeHxXKek3BkN_P1HAuqhab5jEogbaKygB8";
 
-      const shipment = {
-        tracking_number: document.getElementById("trackingNumber").value,
-        origin: document.getElementById("origin").value,
-        destination: document.getElementById("destination").value,
-        status: document.getElementById("status").value,
-        delivery_date: document.getElementById("deliveryDate").value
-      };
+const supabaseClient = supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_ANON_KEY
+);
 
-      const { error } = await supabaseClient.from("shipments").insert([shipment]);
+// Generate random tracking number
+document.getElementById("trackingNumber").value =
+  "FDX" + Math.floor(Math.random() * 1000000000);
 
-      if (error) {
-        alert("❌ Error: " + error.message);
-      } else {
-        alert("✅ Shipment Saved! Tracking Number: " + shipment.tracking_number);
-        location.reload();
-      }
-    });
-  </script>
+// Handle form submission
+document.getElementById("shipmentForm").addEventListener("submit", async function(e) {
+  e.preventDefault();
+
+  const shipment = {
+    tracking_number: document.getElementById("trackingNumber").value,
+    origin: document.getElementById("origin").value,
+    destination: document.getElementById("destination").value,
+    status: document.getElementById("status").value,
+    delivery_date: document.getElementById("deliveryDate").value
+  };
+
+  const { error } = await supabaseClient
+    .from("shipments")
+    .insert([shipment]);
+
+  if (error) {
+    alert("❌ Error: " + error.message);
+  } else {
+    alert("✅ Shipment Saved! Tracking Number: " + shipment.tracking_number);
+    location.reload();
+  }
+});
+</script>
 </body>
 </html>
+
